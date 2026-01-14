@@ -4,13 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
+		<artifactId>spring-boot-dependencies</artifactId>
 		<version>4.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.minjor</groupId>
 	<artifactId>template-spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>template-spring-boot</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -20,6 +22,12 @@
 	<developers>
 		<developer/>
 	</developers>
+	<modules>
+		<module>common</module>
+		<module>template</module>
+		<module>web</module>
+		<module>app</module>
+	</modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
@@ -28,27 +36,70 @@
 	</scm>
 	<properties>
 		<java.version>25</java.version>
+		<project.version>0.0.1-SNAPSHOT</project.version>
+		<jackson.version>3.0.3</jackson.version>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
+	<!-- 版本管理 -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.minjor</groupId>
+				<artifactId>common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.minjor</groupId>
+				<artifactId>web</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-databind -->
+			<dependency>
+				<groupId>tools.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<excludes>
+							<exclude>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+							</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>25</source>
+						<target>25</target>
+						<annotationProcessorPaths>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+							</path>
+						</annotationProcessorPaths>
+						<compilerArgs>
+							<arg>-parameters</arg>
+						</compilerArgs>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 </project>
