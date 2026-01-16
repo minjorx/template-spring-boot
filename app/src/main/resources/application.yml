@@ -29,7 +29,7 @@ logging:
     enabled: true
     fields: traceId,spanId
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%X{traceId:-},%X{spanId:-}] - %msg%n"
+    level: "%5p [%X{traceId:-},%X{spanId:-}]"
   level:
     druid.sql.Statement: DEBUG
     root: INFO

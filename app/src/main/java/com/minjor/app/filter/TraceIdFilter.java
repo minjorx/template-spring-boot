@@ -46,7 +46,11 @@ public class TraceIdFilter implements Filter {
             traceId = generateTraceId();
         }
         MDC.put(TRACE_ID, traceId);
-        filterChain.doFilter(servletRequest, servletResponse);
+        try {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } finally {
+            MDC.remove(TRACE_ID); // 确保在请求完成后清理MDC上下文
+        }
     }
 
     @Override
