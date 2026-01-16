@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-dependencies</artifactId>
-		<version>4.0.1</version>
+		<version>4.1.0-SNAPSHOT</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -40,6 +40,10 @@
 		<jackson.version>3.0.3</jackson.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
 	</dependencies>
 
 	<!-- 版本管理 -->
@@ -55,6 +59,16 @@
 				<artifactId>web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.minjor</groupId>
+				<artifactId>app</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.minjor</groupId>
+				<artifactId>template</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<!-- Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-databind -->
 			<dependency>
@@ -63,6 +77,39 @@
 				<version>${jackson.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>3.0.0</version>
+			</dependency>
+
+			<!-- Source: https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-common -->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-common</artifactId>
+				<version>3.0.1</version>
+			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/io.micrometer/micrometer-tracing-bridge-brave -->
+			<dependency>
+				<groupId>io.micrometer</groupId>
+				<artifactId>micrometer-tracing-bridge-brave</artifactId>
+				<version>1.7.0-M2</version>
+			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/io.micrometer/micrometer-tracing -->
+			<dependency>
+				<groupId>io.micrometer</groupId>
+				<artifactId>micrometer-tracing</artifactId>
+				<version>1.7.0-M2</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- Source: https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations -->
+			<dependency>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>2.2.41</version>
+				<scope>compile</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

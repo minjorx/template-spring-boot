@@ -23,6 +23,7 @@ public class GlobalExceptionAdvice {
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
         response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        log.error("上传文件过大: {}", exc.getMessage());
         return new ResultJson<>(
                 HttpStatus.CONTENT_TOO_LARGE.value(),
                 "上传文件过大, 不能超过" + maxFileSize,
@@ -30,11 +31,10 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler(SQLException.class)
-    public ResultJson<Void> handleSQLException(SQLException exc,
-                                              HttpServletResponse response) {
+    public ResultJson<Void> handleSQLException(SQLException exc) {
         return new ResultJson<>(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "数据库操作异常: " + exc.getMessage(),
+                "数据层异常: " + exc.getMessage(),
                 null);
     }
 

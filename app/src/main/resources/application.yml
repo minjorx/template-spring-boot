@@ -1,0 +1,47 @@
+spring:
+  aop:
+    proxy-target-class: true
+  application:
+    name: template-spring-boot
+  data:
+    mongodb:
+      auto-index-creation: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 2MB
+
+# port: 8080
+server:
+  port: 8080
+  tomcat:
+    # 上传大小限制配置
+    max-swallow-size: -1
+# swagger-ui custom path
+springdoc:
+  api-docs:
+    enabled: true
+
+
+logging:
+  correlation:
+    enabled: true
+    fields: traceId,spanId
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%X{traceId:-},%X{spanId:-}] - %msg%n"
+  level:
+    druid.sql.Statement: DEBUG
+    root: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    logging:
+      enabled: true
+    enabled: true
+    sampling:
+      probability: 1.0
