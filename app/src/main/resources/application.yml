@@ -28,8 +28,6 @@ logging:
   correlation:
     enabled: true
     fields: traceId,spanId
-  pattern:
-    level: "%5p [%X{traceId:-},%X{spanId:-}]"
   level:
     druid.sql.Statement: DEBUG
     root: INFO

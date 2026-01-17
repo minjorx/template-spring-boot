@@ -58,28 +58,14 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Micrometer Tracing 支持 OpenTelemetry -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-micrometer-tracing-brave</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-otel</artifactId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
-
-        <!-- Source: https://mvnrepository.com/artifact/io.opentelemetry/opentelemetry-exporter-zipkin -->
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-zipkin</artifactId>
-            <version>1.58.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing</artifactId>
-            <version>1.7.0-M2</version>
-            <scope>compile</scope>
-        </dependency>
-
     </dependencies>
 
     <build>

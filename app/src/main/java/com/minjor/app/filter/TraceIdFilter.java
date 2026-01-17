@@ -10,8 +10,13 @@ import org.slf4j.MDC;
 import java.io.IOException;
 import java.util.UUID;
 
+/**
+ * 基于Filter实现的简单日志跟踪
+ * 本项目已经使用micrometer-server-spring-boot-starter 实现了日志跟踪, 这里不启用。
+ * 如果不想用micrometer-server-spring-boot-starter, 可以启用本类。取消@WebFilter注解注释即可
+ */
 @Slf4j
-@WebFilter(filterName = "traceIdFilter", urlPatterns = "/*")
+//@WebFilter(filterName = "traceIdFilter", urlPatterns = "/*")
 public class TraceIdFilter implements Filter {
 
     /**
