@@ -73,7 +73,76 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!-- 禁用 Spring Boot 默认的 repackage, 因为没有将spring-boot-parent作为parent -->
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+<!--                    <mainClass>com.minjor.app.App</mainClass>-->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+
+                        <configuration>
+                            <imageName>${project.artifactId}</imageName>
+                            <mainClass>com.minjor.app.App</mainClass>
+                            <image>
+                                <name>minjor/${project.artifactId}:${project.version}</name>
+                                <env>
+                                    <BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
+                                    <!-- 禁用调试工具 -->
+                                    <BPL_DEBUG_ENABLED>false</BPL_DEBUG_ENABLED>
+                                    <!-- 禁用 JMX -->
+                                    <BPL_JMX_ENABLED>false</BPL_JMX_ENABLED>
+                                    <!-- 使用更小的 JRE -->
+                                    <BP_JVM_TYPE>JRE</BP_JVM_TYPE>
+                                    <!-- 压缩 JVM 层 -->
+                                    <BP_JVM_LAYERS>true</BP_JVM_LAYERS>
+
+                                    <!-- Native Image 构建参数 -->
+                                    <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                                        --no-fallback
+                                        --static
+                                        --libc=musl
+                                        -O2
+                                        -H:+ReportExceptionStackTraces
+                                        -H:+ReportUnsupportedElementsAtRuntime
+                                        -H:ReflectionConfigurationFiles=/layers/paketo-buildpacks_java-native-image/reflection-config.json
+                                        -H:ResourceConfigurationFiles=/layers/paketo-buildpacks_java-native-image/resource-config.json
+                                        -H:DynamicProxyConfigurationFiles=/layers/paketo-buildpacks_java-native-image/proxy-config.json
+                                        -H:JNIConfigurationFiles=/layers/paketo-buildpacks_java-native-image/jni-config.json
+                                        --enable-https
+                                        --enable-http
+                                        -H:+AddAllCharsets
+                                        -H:NativeLinkerOption=-no-pie
+                                    </BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                                </env>
+                            </image>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

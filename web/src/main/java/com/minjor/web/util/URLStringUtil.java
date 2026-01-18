@@ -10,7 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @UtilityClass
-public class StringUtil {
+public class URLStringUtil {
     // 处理中文文件名编码（兼容浏览器）
     public String encodeFilename(String filename) {
         return URLEncoder.encode(filename, StandardCharsets.UTF_8)

@@ -11,8 +11,16 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.sql.SQLException;
 
+/**
+ * 全局异常处理
+ * @author minjor
+ * @date 2026/01/17 17:05
+ * @description
+ * 1. 统一异常处理
+ * 2. 统一返回结果处理
+ */
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.minjor")
 public class GlobalExceptionAdvice {
     @Value("${spring.servlet.multipart.max-file-size:2MB}")
     private String maxFileSize;

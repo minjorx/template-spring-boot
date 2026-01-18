@@ -11,11 +11,13 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 @Slf4j
 @WebFilter(filterName = "loggingFilter", urlPatterns = "/*")
 public class LoggingFilter implements Filter {    // 设置最大缓存 100KB，避免大文件导致 OOM
     private static final int CONTENT_CACHE_LIMIT = 1000 * 1024; // 100 KB
+    private static final int RESPONSE_LOG_LIMIT = 100; // 100 KB
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -66,16 +68,17 @@ public class LoggingFilter implements Filter {    // 设置最大缓存 100KB，
     }
 
     private static @NonNull String getString(String request, int request1, byte[] buffer) {
-        String requestBody = "";
+        StringBuilder sb = new StringBuilder();
         if (request != null && request.toLowerCase().contains("application/json")) {
-            if (request1 > 0) {
+            if (request1 > 0 && request1<= RESPONSE_LOG_LIMIT) {
                 if (buffer.length > 0) {
-                    requestBody = new String(buffer, StandardCharsets.UTF_8);
+                    sb.append(new String(buffer, StandardCharsets.UTF_8));
                 }
+            } else {
+                sb.append(new String(Arrays.copyOfRange(buffer, 0, RESPONSE_LOG_LIMIT), StandardCharsets.UTF_8));
+                sb.append("...");
             }
-        } else {
-            requestBody = "..";
         }
-        return requestBody;
+        return sb.toString();
     }
 }

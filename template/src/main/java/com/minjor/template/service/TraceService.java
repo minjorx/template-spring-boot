@@ -1,4 +1,4 @@
-package com.minjor.app.service;
+package com.minjor.template.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
