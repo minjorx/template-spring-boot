@@ -20,7 +20,8 @@
 		<module>template</module>
 		<module>web</module>
 		<module>app</module>
-	</modules>
+        <module>demo</module>
+    </modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
