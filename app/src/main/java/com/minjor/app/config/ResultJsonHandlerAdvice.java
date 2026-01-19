@@ -1,5 +1,6 @@
 package com.minjor.app.config;
 
+import com.minjor.common.utils.JacksonUtil;
 import com.minjor.web.anno.ResultJsonIgnore;
 import com.minjor.web.enums.ResultStatus;
 import com.minjor.web.model.resp.ResultJson;
@@ -71,6 +72,10 @@ public class ResultJsonHandlerAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public @Nullable Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        return new ResultJson<>(ResultStatus.SUCCESS_CODE, ResultStatus.SUCCESS, body);
+        ResultJson<?> resultJson = new ResultJson<>(ResultStatus.SUCCESS_CODE, ResultStatus.SUCCESS, body);
+        if (body instanceof String) {
+            return JacksonUtil.toJson(resultJson);
+        }
+        return resultJson;
     }
 }

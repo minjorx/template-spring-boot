@@ -38,11 +38,11 @@ public class TaskProvider {
 
     /**
      * 模拟文件读取和处理任务
+     *
      * @param fileSizeKB 模拟的文件大小(KB)
      * @param complexity 处理复杂度因子 (1-10)
-     * @return 处理结果字符串
      */
-    public static String simulateFileProcessing(int fileSizeKB, int complexity) {
+    public static void simulateFileProcessing(int fileSizeKB, int complexity) {
         // 模拟IO等待 - 文件读取时间与文件大小相关
         try {
             // 每KB约0.5ms的读取时间（实际IO延迟）
@@ -78,6 +78,5 @@ public class TaskProvider {
             Thread.currentThread().interrupt();
         }
 
-        return result.toString();
     }
 }
