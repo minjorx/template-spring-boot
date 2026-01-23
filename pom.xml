@@ -20,6 +20,7 @@
 		<module>template</module>
 		<module>web</module>
 		<module>app</module>
+		<module>auth</module>
 	</modules>
 	<scm>
 		<connection/>
@@ -68,6 +69,11 @@
 			<dependency>
 				<groupId>com.minjor</groupId>
 				<artifactId>template</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.minjor</groupId>
+				<artifactId>auth</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
