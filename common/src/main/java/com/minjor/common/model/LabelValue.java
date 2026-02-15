@@ -16,10 +16,20 @@ public class LabelValue<L, V, I> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private LabelValue<L, V, I> child;
 
+    public LabelValue(L label, V value, I info) {
+        this.label = label;
+        this.value = value;
+        this.info = info;
+    }
+
+    public LabelValue(L label, V value, LabelValue<L, V, I> child) {
+        this.label = label;
+        this.value = value;
+        this.child = child;
+    }
+
     public LabelValue(L label, V value) {
         this.label = label;
         this.value = value;
     }
-
-
 }

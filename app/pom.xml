@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.minjor</groupId>
-        <artifactId>template-spring-boot</artifactId>
+        <artifactId>datam-backend</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -34,6 +34,10 @@
         <dependency>
             <groupId>com.minjor</groupId>
             <artifactId>auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.minjor</groupId>
+            <artifactId>datam</artifactId>
         </dependency>
 
         <dependency>
@@ -69,6 +73,21 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+
+
+        <!-- H2 Database (for development/testing) -->
+<!--        <dependency>-->
+<!--            <groupId>com.h2database</groupId>-->
+<!--            <artifactId>h2</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+
+        <!-- PostgreSQL Driver (for production) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

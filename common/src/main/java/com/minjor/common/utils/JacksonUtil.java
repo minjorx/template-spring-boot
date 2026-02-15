@@ -199,4 +199,12 @@ public class JacksonUtil {
             throw new RuntimeException("JsonNode转换为对象失败", e);
         }
     }
+
+    public static String writeValueAsString(Object object) {
+        try {
+            return object == null ? null : JSON_MAPPER.writeValueAsString(object);
+        } catch (JacksonException e) {
+            throw new RuntimeException("对象转换为JSON字符串失败", e);
+        }
+    }
 }

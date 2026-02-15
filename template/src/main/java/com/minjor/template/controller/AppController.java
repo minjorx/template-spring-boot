@@ -3,6 +3,7 @@ package com.minjor.template.controller;
 import com.minjor.template.service.TraceService;
 import com.minjor.web.anno.ResultJsonIgnore;
 import com.minjor.web.controller.BaseController;
+import com.minjor.web.model.resp.ResultJson;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -27,5 +28,13 @@ public class AppController extends BaseController {
     @GetMapping("/withoutResultJson")
     public String withoutResultJson() {
         return traceService.test();
+    }
+
+    @Operation(description = "测试ResultJsonIgnore")
+    @GetMapping("/withResultJson")
+    public ResultJson<String> withResultJson() {
+//        Thread.currentThread().isVirtual()
+        log.info("currentThread: {}", Thread.currentThread().isVirtual());
+        return success(traceService.test());
     }
 }

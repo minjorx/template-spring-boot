@@ -6,9 +6,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Group implements BaseEnum<String> {
-    SYSTEM("系统"),
-    USER("用户"),
+public enum Group implements BaseEnum<String, String> {
+    SYSTEM("系统", "system"),
+    USER("用户", "user"),
     ;
     private final String label;
+    private final String value;
 }

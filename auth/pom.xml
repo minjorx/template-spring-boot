@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.minjor</groupId>
-        <artifactId>template-spring-boot</artifactId>
+        <artifactId>datam-backend</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -23,8 +23,22 @@
             <artifactId>web</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.minjor</groupId>
+            <artifactId>data</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- JWT Library (Auth0) -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
         </dependency>
     </dependencies>
 

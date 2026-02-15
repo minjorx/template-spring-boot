@@ -14,7 +14,15 @@ public class BaseController {
         return new ResultJson<>(ResultStatus.SUCCESS_CODE, ResultStatus.SUCCESS, data);
     }
 
+    public <T> ResultJson<T> success(String msg, T o) {
+        return new ResultJson<T>(ResultStatus.SUCCESS_CODE, msg, o);
+    }
+
     public ResultJson<Void> fail() {
-        return new ResultJson<Void>(ResultStatus.FAIL_CODE, ResultStatus.FAIL, null);
+        return new ResultJson<>(ResultStatus.FAIL_CODE, ResultStatus.FAIL, null);
+    }
+
+    public ResultJson<Void> fail(String msg) {
+        return new ResultJson<>(ResultStatus.FAIL_CODE, msg, null);
     }
 }

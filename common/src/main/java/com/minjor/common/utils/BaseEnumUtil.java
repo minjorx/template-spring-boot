@@ -13,19 +13,19 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class BaseEnumUtil {
 
-    public static <T extends Enum<T> & BaseEnum<?>> List<LabelValue<?, ?, Object>> getLabelValue(Class<T> enumClass) {
+    public static <T extends Enum<T> & BaseEnum<?, ?>> List<LabelValue<?, ?, Object>> getLabelValue(Class<T> enumClass) {
         return getLabelValue(enumClass.getEnumConstants());
     }
 
-    public static <T extends Enum<T> & BaseEnum<?>> List<LabelValue<?, ?, Object>> getLabelValue(Class<T> enumClass, final BiConsumer<T, LabelValue<?, ?, Object>> consumer) {
+    public static <T extends Enum<T> & BaseEnum<?, ?>> List<LabelValue<?, ?, Object>> getLabelValue(Class<T> enumClass, final BiConsumer<T, LabelValue<?, ?, Object>> consumer) {
         return getLabelValue(enumClass.getEnumConstants(), consumer);
     }
 
-    public static <T extends Enum<T> & BaseEnum<?>> List<LabelValue<?, ?, Object>> getLabelValue(T[] enums) {
+    public static <T extends Enum<T> & BaseEnum<?, ?>> List<LabelValue<?, ?, Object>> getLabelValue(T[] enums) {
         return getLabelValue(enums, null);
     }
 
-    public static <T extends Enum<T> & BaseEnum<?>> List<LabelValue<?, ?, Object>> getLabelValue(T[] enums, final BiConsumer<T, LabelValue<?, ?, Object>> consumer) {
+    public static <T extends Enum<T> & BaseEnum<?, ?>> List<LabelValue<?, ?, Object>> getLabelValue(T[] enums, final BiConsumer<T, LabelValue<?, ?, Object>> consumer) {
         return Arrays.stream(enums)
                 .map(enumValue -> {
                     LabelValue<?, ?, Object> labelValue = new LabelValue<>(enumValue.getLabel(), enumValue.name());

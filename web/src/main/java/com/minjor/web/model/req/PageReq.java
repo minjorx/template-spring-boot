@@ -12,39 +12,23 @@ public class PageReq<C> {
     @Schema(description = "排序规则",
             defaultValue = "[{\"field\":\"\",\"order\":\"DESC\"}]",
             example = "[{\"field\":\"\",\"order\":\"DESC\"}]")
-    private List<Sort> sort;
+    private List<Sorted> sorted;
 
-    private long pageNum;
-    private long pageSize;
+    private int pageNum;
+    private int pageSize;
 
-    public void setPageNum(long pageNum) {
-        this.pageNum = pageNum;
-        if (this.pageNum < 1) {
-            this.pageNum = 1;
-        }
+    public void setPageNum(int pageNum) {
+        this.pageNum = Math.max(pageNum, 1);
     }
 
-    public void setPageSize(long pageSize) {
-        this.pageSize = pageSize;
-        if (this.pageSize < 1) {
+    public void setPageSize(int pageSize) {
+        if (pageSize < 1) {
             this.pageSize = 10;
+        } else {
+            this.pageSize = pageSize;
         }
     }
 
-    public long getPageNum() {
-        if (this.pageNum < 1) {
-            return 1;
-        }
-        return this.pageNum;
-    }
-
-    public long getPageSize() {
-        if (this.pageSize < 1) {
-            return 10;
-        }
-        return this.pageSize;
-    }
-
-    public record Sort(String field, Direction order) {
+    public record Sorted(String field, Direction order) {
     }
 }

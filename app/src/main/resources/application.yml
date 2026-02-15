@@ -5,7 +5,7 @@ spring:
   aop:
     proxy-target-class: true
   application:
-    name: template-spring-boot
+    name: datam
   data:
     mongodb:
       auto-index-creation: true
@@ -14,6 +14,61 @@ spring:
       enabled: true
       max-file-size: 2MB
       max-request-size: 2MB
+  datasource:
+    # PostgreSQL 示例配置
+    url: jdbc:p6spy:postgresql://localhost:5432/datam # 替换为您的实际数据库名
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    username: postgres                               # 替换为您的实际用户名
+    password: postgres                               # 替换为您的实际密码
+    hikari:
+      # --- 关键性能参数 ---
+      # 最大连接池大小。根据应用并发量和DB处理能力调整。
+      # 默认值通常是 10，生产环境通常需要更大，如 20-50 或更高。
+      # PostgreSQL 通常建议根据 max_connections 参数和应用需求来设置，留出余量给其他连接。
+      maximum-pool-size: 50
+
+      # 最小空闲连接数。保持池中有一定数量的连接，减少请求时等待创建连接的时间。
+      # 如果等于 maximum-pool-size，则始终保持最大连接数。
+      # 默认值通常是与 maximum-pool-size 相同或为 10。
+      minimum-idle: 10
+
+      # --- 连接生命周期管理 ---
+      # 从连接池获取连接的超时时间（毫秒）。如果超过此时间仍无法获取连接，则抛出异常。
+      # 默认值是 30000 (30秒)。
+      connection-timeout: 30000
+
+      # 连接在池中闲置的最长时间（毫秒）。超过此时间且当前连接数大于 minimum-idle，连接将被回收。
+      # 默认值是 600000 (10分钟)。
+      idle-timeout: 600000
+
+      # 连接池中连接的最大生存时间（毫秒）。连接被创建后，存活时间超过此值将被强制回收。
+      # 默认值是 1800000 (30分钟)。应小于数据库端的连接超时设置。
+      # PostgreSQL 也有自己的连接超时设置，建议此值略小于数据库端设置。
+      max-lifetime: 1800000
+
+      # --- 连接健康检查 ---
+      # 连接验证超时时间（毫秒）。执行 validationQuery 的超时时间。
+      # 默认值是 5000 (5秒)。
+      validation-timeout: 5000
+
+      # --- 其他重要参数 ---
+      # 连接池名称，便于监控和日志识别。
+      pool-name: HikariPoolForPgsql
+
+      # PostgreSQL 推荐的一些连接参数，可以通过 data-source-properties 传递给驱动
+      data-source-properties:
+        # 启用预处理语句缓存，提高性能
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        # 使用服务器端预处理语句（如果数据库支持）
+        useServerPrepStmts: true
+        # 启用批处理优化
+        reWriteBatchedInserts: true
+        # 设置字符编码
+        charSet: UTF-8
+        # 其他可能需要的参数，如 SSL 模式等
+        # ssl: false # 根据您的数据库设置决定
 
 # port: 8080
 server:
@@ -46,3 +101,21 @@ management:
     enabled: true
     sampling:
       probability: 1.0
+
+
+app:
+  auth:
+    mock: true
+    jwt:
+      secret: 8xdXQfHUAIbMnQmUke0LefXIA0/P95Wa7RcSdQr1clGfE8wUuYQVGd6lODxnkXWIj7lZa3hgdDlSz33YIWYiTA==
+      expiration: 86400
+  encryption:
+    datasource-secret: vCXyzK+6gYkqkVjo5Cj3/3uFfxpSFH6K6t7knNct27c=
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted # 全局逻辑删除字段名(deleted为实体类属性名称)
+      logic-delete-value: true # 逻辑已删除值。可选，默认值为 1
+      logic-not-delete-value: false # 逻辑未删除值。可选，默认值为 0
+      id-type: ASSIGN_UUID

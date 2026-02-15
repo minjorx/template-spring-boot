@@ -1,12 +1,15 @@
 package com.minjor.app.config;
 
+import com.minjor.common.utils.JacksonUtil;
 import com.minjor.web.anno.ResultJsonIgnore;
 import com.minjor.web.enums.ResultStatus;
 import com.minjor.web.model.resp.ResultJson;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -14,13 +17,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestControllerAdvice(basePackages = "com.minjor")
 public class ResultJsonHandlerAdvice implements ResponseBodyAdvice<Object> {
-    // 缓存反射结果，显著提升性能
-    private final ConcurrentHashMap<Method, Boolean> supportCache = new ConcurrentHashMap<>(256);
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -31,31 +31,22 @@ public class ResultJsonHandlerAdvice implements ResponseBodyAdvice<Object> {
             return false;
         }
 
-        // 检查缓存（高频调用下缓存收益巨大）
-        Boolean cached = supportCache.get(method);
-        if (cached != null) {
-            return cached;
-        }
-
         // 执行检查逻辑
-        boolean result = computeSupports(method);
 
-        // 存入缓存
-        supportCache.put(method, result);
-        return result;
-    }
-
-    private boolean computeSupports(Method method) {
         // 按性能开销排序：类型比较 -> 注解检查
-        Class<?> returnType = method.getReturnType();
+        Class<?> returnClass = method.getReturnType();
 
         // 1. 检查void返回（最常见，最快）
-        if (returnType == Void.TYPE) {  // 使用 == 而非 equals()
+        if (returnClass == Void.TYPE) {  // 使用 == 而非 equals()
             return false;
         }
 
         // 2. 检查ResultJson类型返回
-        if (returnType == ResultJson.class) {  // 类对象是单例，可用 ==
+        if (returnClass == ResultJson.class) {  // 类对象是单例，可用 ==
+            return false;
+        }
+
+        if (returnClass == ResponseEntity.class) {
             return false;
         }
 
@@ -70,7 +61,10 @@ public class ResultJsonHandlerAdvice implements ResponseBodyAdvice<Object> {
     }
 
     @Override
-    public @Nullable Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+    public @Nullable Object beforeBodyWrite(@Nullable Object body, @NonNull MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+        if (selectedConverterType.getSimpleName().contains("StringHttpMessageConverter")) {
+            return JacksonUtil.toJson(new ResultJson<>(ResultStatus.SUCCESS_CODE, ResultStatus.SUCCESS, body));
+        }
         return new ResultJson<>(ResultStatus.SUCCESS_CODE, ResultStatus.SUCCESS, body);
     }
 }
